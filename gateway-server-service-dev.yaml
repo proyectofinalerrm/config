@@ -1,0 +1,123 @@
+resilience4j:
+  circuitbreaker:
+    configs:
+      defecto:
+   #     sliding-window-size: 6
+   #     failure-rate-threshold: 50
+        wait-duration-in-open-state: 20s
+   #     permitted-number-of-calls-in-half-open-state: 4
+   #     slow-call-rate-threshold: 50
+   #     slow-call-duration-threshold: 2s
+    instances:
+      bank:
+        base-config: defecto
+  timelimiter:
+    configs:
+      defecto:
+        timeout-duration: 2s
+    instances:
+      bank:
+        base-config: defecto
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/api/customer/**
+          filters:
+            - StripPrefix=2
+        - id: person-service
+          uri: lb://person-service
+          predicates:
+            - Path=/api/person/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: bank
+                statusCodes: 500
+                fallbackUri: forward:/defaultFallBack
+            - StripPrefix=2
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=2
+        - id: credit-service
+          uri: lb://credit-service
+          predicates:
+            - Path=/api/credit/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: bank
+                statusCodes: 500
+                fallbackUri: forward:/defaultFallBack
+            - StripPrefix=2
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/api/account/**
+          filters:
+            - StripPrefix=2
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: bank
+                statusCodes: 500
+                fallbackUri: forward:/defaultFallBack
+            - StripPrefix=2
+        - id: enterprise-service
+          uri: lb://enterprise-service
+          predicates:
+            - Path=/api/enterprise/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: bank
+                statusCodes: 500
+                fallbackUri: forward:/defaultFallBack
+            - StripPrefix=2
+        - id: person-enterprise-service
+          uri: lb://person-enterprise-service
+          predicates:
+            - Path=/api/personenterprise/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: bank
+                statusCodes: 500
+                fallbackUri: forward:/defaultFallBack
+            - StripPrefix=2
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/api/transaction/**
+          filters:
+            - StripPrefix=2
+        - id: transfer-service
+          uri: lb://transfer-service
+          predicates:
+            - Path=/api/transfer/**
+          filters:
+            - StripPrefix=2
+        - id: loan-service
+          uri: lb://loan-service
+          predicates:
+            - Path=/api/loan/**
+          filters:
+            - StripPrefix=2
+        - id: debit-card-service
+          uri: lb://debit-card-service
+          predicates:
+            - Path=/api/debitcard/**
+          filters:
+            - StripPrefix=2
+           

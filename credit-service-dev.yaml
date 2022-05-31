@@ -1,0 +1,6 @@
+server:
+  port: 8091
+
+restClient:
+  productUrl: http://gateway-server-service/api/product/v1/products
+  transactionUrl: http://gateway-server-service/api/transaction/v1/transaction

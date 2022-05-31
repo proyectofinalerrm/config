@@ -1,0 +1,6 @@
+server:
+  port: 8099
+
+restClient:
+  accountUrl: http://gateway-server-service/api/account
+  transactionUrl: http://gateway-server-service/api/transaction

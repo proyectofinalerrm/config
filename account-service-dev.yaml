@@ -1,0 +1,21 @@
+server:
+  port: 8086
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://erick:erickpinglo@cluster0.xdfgh.mongodb.net/bank
+      
+eureka:
+  client:
+    service-url:
+        defaultZone: http://localhost:8096/eureka
+  instance:
+    preferIpAddress: true
+
+restClient:
+   customerUrl: http://gateway-server-service/api/customer
+   transactionUrl: http://gateway-server-service/api/transaction
+   creditUrl: http://gateway-server-service/api/credit
+   debitCardUrl: http://gateway-server-service/api/debitcard
+
